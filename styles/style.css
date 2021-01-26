@@ -46,7 +46,6 @@ body {
   margin: 20px 0 0 0;
 }
 
-
 .ui-draggable, .ui-droppable {
 	background-position: top;
 }
@@ -193,6 +192,7 @@ ul.sortable-left > li > .text-content {
 .btn {
   padding: 4px 8px;
   cursor: pointer;
+	font-size: 1rem;
 }
 
 ul.sortable-left > li.allowable-answer {
@@ -202,4 +202,5 @@ ul.sortable-left > li.allowable-answer {
 ul.sortable-left > li.allowable-answer input.allowable-answer-input {
   padding: 4px;
   width: calc(100% - 10px);
+  border: 1px solid #ccc;
 }

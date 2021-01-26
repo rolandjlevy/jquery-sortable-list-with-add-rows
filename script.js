@@ -23,6 +23,15 @@
       var sortableList = $(".sortable-left");
       var lastItem = $(".sortable-left").find("li:last-child");
       $(sortableList).append(listItem);
+      bindRemoveButton();
     });
+
+    function bindRemoveButton() {
+      $(".sortable-left span.remove").unbind("click").click(function(e) {
+        $(this).parent().remove();
+      });
+    };
+
+    bindRemoveButton();
 
 });
