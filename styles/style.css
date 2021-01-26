@@ -194,3 +194,12 @@ ul.sortable-left > li > .text-content {
   padding: 4px 8px;
   cursor: pointer;
 }
+
+ul.sortable-left > li.allowable-answer {
+  padding: 4px 8px;
+}
+
+ul.sortable-left > li.allowable-answer input.allowable-answer-input {
+  padding: 4px;
+  width: calc(100% - 10px);
+}

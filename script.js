@@ -17,9 +17,12 @@
       }
     }).disableSelection();
 
+    var listItem = '<li class="ui-state-default allowable-answer"><span><span class="draggable"></span></span><span class="text-content"><input type="text" value="" class="allowable-answer-input" /></span><span class="remove" unselectable="on">×</span></li>';
+
     $(".btn.add").unbind("click").click(function(e) {
-      var lastItem = $(".sortable-left").find(":last-child");
-      console.log({lastItem})
+      var sortableList = $(".sortable-left");
+      var lastItem = $(".sortable-left").find("li:last-child");
+      $(sortableList).append(listItem);
     });
 
 });
