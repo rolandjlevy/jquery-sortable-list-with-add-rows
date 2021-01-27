@@ -119,7 +119,7 @@ ul.sortable li > .item {
   height: 18px;
   float: left;
   cursor: move;
-  margin: 3px 5px 0 0;
+  margin: 3px 5px 0 1px;
 }
 
 .draggable-li {
@@ -183,6 +183,7 @@ button:disabled:hover {
   pointer-events: initial;
   user-select: none;
   transition: all 0.15s ease;
+  margin-top: 1px;
 }
 
 .remove:hover {
@@ -193,7 +194,7 @@ button:disabled:hover {
 
 ul.sortable-left > li > .text-content {
     width: 100%;
-    margin: 0 5px;
+    margin: 0 7px;
 }
 
 ul.sortable-left > li.allowable-answer {
