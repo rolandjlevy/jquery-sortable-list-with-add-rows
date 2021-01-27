@@ -188,12 +188,6 @@ ul.sortable-left > li > .text-content {
     margin: 0 5px;
 }
 
-.btn {
-  padding: 4px 8px;
-  cursor: pointer;
-	font-size: 1rem;
-}
-
 ul.sortable-left > li.allowable-answer {
   padding: 8px;
 }
@@ -205,5 +199,17 @@ ul.sortable-left > li.allowable-answer-editable {
 ul.sortable-left > li.allowable-answer-editable input {
   padding: 4px;
   width: calc(100% - 10px);
+  border: 1px solid #ccc;
+}
+
+.btn {
+  padding: 4px 8px;
+  cursor: pointer;
+	font-size: 1rem;
+  border: 1px solid #999;
+  border-radius: 2px;
+}
+
+.btn:disabled {
   border: 1px solid #ccc;
 }
