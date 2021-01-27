@@ -86,12 +86,20 @@ body {
   flex-direction: row;
 }
   
+/* .sortable-left li:not(:last-child) {
+  border-bottom: none;
+} */
+  
 .sortable-left li:not(:last-child) {
   border-bottom: none;
 }
 
-.sortable-left li:last-child, .selected {
+.sortable-left li:last-child {
   border-bottom: 1px solid var(--item-border);
+}
+
+.ui-sortable-helper {
+  border-bottom: 1px solid var(--item-border) !important;
 }
 
 ul.sortable li:hover {

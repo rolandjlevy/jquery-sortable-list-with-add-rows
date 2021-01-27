@@ -13,10 +13,10 @@ $(function() {
     revertDuration: 50,
     placeholder: "ui-sortable-placeholder",
     sort: function(event, ui){ 
-      ui.item.addClass("selected");
+      // ui.item.addClass("selected");
     },
     stop: function(event, ui){ 
-      ui.item.removeClass("selected"); 
+      // ui.item.removeClass("selected"); 
       var tempItems = sortItemsData();
       items = tempItems.slice();
       updateDataDisplay(items);
@@ -44,6 +44,8 @@ $(function() {
       text: 'Any other site restrictions?'
     }
   ];
+
+  var counter = items.length + 1;
 
   // Get data for one item
   function getItemData(id) {
@@ -101,7 +103,7 @@ $(function() {
 
   // Add an empty item
   $(".btn.add").unbind("click").click(function(e) {
-    var id = items.length + 1; 
+    var id = counter++; 
     items.push({ id: id, text: '' });
     var newItem = createDomItem(id);
     sortableList.append(newItem);
