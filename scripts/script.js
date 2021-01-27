@@ -9,18 +9,19 @@ $(function() {
   sortableList.sortable({
     items: "> li",
     handle: ".draggable",
-    revert: true,
-    revertDuration: 10,
+    revert: false,
+    revertDuration: 50,
     placeholder: "ui-sortable-placeholder",
     sort: function(event, ui){ 
       ui.item.addClass("selected");
     },
     stop: function(event, ui){ 
       ui.item.removeClass("selected"); 
+      var tempItems = sortItemsData();
+      items = tempItems.slice();
+      updateDataDisplay(items);
     },
     update: function(e, ui) {
-
-      // updateDataDisplay(items);
     }
   }).disableSelection();
 
@@ -58,7 +59,15 @@ $(function() {
   // Remove data for one item
   function removeItemData(id) {
     items = items.filter(function(item) { return item.id != id; });
-    updateDataDisplay(items);
+  }
+
+  // Sort all items on sortable update event
+  function sortItemsData() {
+    var sortableArray = sortableList.sortable('toArray');
+    return sortableArray.map(function(id) {
+      var found = items.find(function(item) { return id == item.id; });
+      return { id: id, text: found.text };
+    });
   }
 
   // Update displayed data
@@ -96,9 +105,10 @@ $(function() {
     items.push({ id: id, text: '' });
     var newItem = createDomItem(id);
     sortableList.append(newItem);
-    updateDataDisplay(items);
+    $("li#" + id + " :input[type=text]").focus();
     bindEventsDynamically();
     $(this).attr("disabled", "disabled");
+    updateDataDisplay(items);
   });
 
   // Save items
@@ -106,13 +116,11 @@ $(function() {
     sortableList.find("li").each(function(index) {
       var id = $(this).attr('id');
       var text = $(this).find(":input[type=text]").val();
-      updateItemText(id, text);
+      updateItemText(id, text.trim());
     });
-    var sortableArray = sortableList.sortable('toArray');
-    console.log({sortableArray}); // reorder items according to sortableArray
-    updateDataDisplay(items);
     $(this).attr("disabled", "disabled");
     $(".btn.add").removeAttr("disabled");
+    updateDataDisplay(items);
   });
 
   function bindEventsDynamically() {
@@ -120,12 +128,13 @@ $(function() {
     $(document).unbind("click").on("click", "ul.sortable-left > li > .remove", function(e) {
       var listItemId = $(this).parent().attr('id');
       removeItemData(listItemId);
-      var inputElement = $(":input[type=text]");
+      var inputElement = $("li#" + listItemId + " :input[type=text]");
       $(this).parent().remove();
       if (inputElement.length) {
         $(".btn.save").attr("disabled", "disabled");
         $(".btn.add").removeAttr("disabled");
       }
+      updateDataDisplay(items);
     });
     // Validate item input
     $(document).unbind("keyup").on("keyup", "ul.sortable-left > li :input", function(e) {
