@@ -23,7 +23,6 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
   height: 100vh;
 }
 
@@ -35,15 +34,19 @@ body {
 }
 
 .m-b-10 {
-  margin: 0 0 10px 0;
+  margin-bottom: 10px;
 }
 
 .m-b-20 {
-  margin: 0 0 20px 0;
+  margin-bottom: 20px;
 }
 
 .m-t-20 {
-  margin: 20px 0 0 0;
+  margin-top: 20px;
+}
+
+.m-l-5 {
+  margin-left: 5px;
 }
 
 .ui-draggable, .ui-droppable {
@@ -60,6 +63,10 @@ body {
   flex-direction: column;
 }
 
+/*********/
+/* Items */
+/*********/
+
 .sortable-left li {
   min-width: 300px;
   white-space: nowrap; 
@@ -67,33 +74,24 @@ body {
   height: auto;
   padding: 8px;
   border: 1px solid var(--item-border);
-  border-bottom: none;
+  border-bottom: 1px solid var(--item-border);
   margin: 0;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
 }
+  
+.sortable-left li:not(:last-child) {
+  border-bottom: none;
+}
 
-.sortable-left li:last-child {
+.sortable-left li:last-child, .selected {
   border-bottom: 1px solid var(--item-border);
 }
-
-#sortable-right li {
-  float: right;
-}
-
-/*********/
-/* Items */
-/*********/
-
 
 ul.sortable li:hover {
   background-color: var(--item-bg-hover);
   transition: background-color 0.15s ease;
-}
-
-ul.sortable li:not(:last-child) {
-  margin: 0 10px 0 0;
 }
 
 ul.sortable li > .item {
@@ -117,17 +115,12 @@ ul.sortable li > .item {
   width: 50px;
 }
 
-.selected {
-  box-shadow: 0px 5px 5px -2px #00000033;
-  transition: box-shadow 0.25 ease;
-}
-
 .ui-sortable-placeholder {
   --border-size: 2px;
   display: inline-block;
   border: var(--border-size) dashed var(--placeholder-border) !important;
   background-color: var(--placeholder-bg) !important;
-  min-height: 34px !important;
+  min-height: 36px !important;
   height: auto;
   padding: 0 !important;
 }
@@ -196,10 +189,14 @@ ul.sortable-left > li > .text-content {
 }
 
 ul.sortable-left > li.allowable-answer {
+  padding: 8px;
+}
+
+ul.sortable-left > li.allowable-answer-editable {
   padding: 4px 8px;
 }
 
-ul.sortable-left > li.allowable-answer input.allowable-answer-input {
+ul.sortable-left > li.allowable-answer-editable input {
   padding: 4px;
   width: calc(100% - 10px);
   border: 1px solid #ccc;
