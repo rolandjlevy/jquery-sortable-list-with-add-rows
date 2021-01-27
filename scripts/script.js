@@ -109,7 +109,7 @@ $(function() {
       updateItemText(id, text);
     });
     var sortableArray = sortableList.sortable('toArray');
-    console.log({sortableArray});
+    console.log({sortableArray}); // reorder items according to sortableArray
     updateDataDisplay(items);
     $(this).attr("disabled", "disabled");
     $(".btn.add").removeAttr("disabled");
