@@ -111,6 +111,7 @@ ul.sortable li > .item {
   height: 18px;
   float: left;
   cursor: move;
+  margin: 3px 5px 0 0;
 }
 
 .draggable-li {
@@ -125,7 +126,7 @@ ul.sortable li > .item {
   display: inline-block;
   border: var(--border-size) dashed var(--placeholder-border) !important;
   background-color: var(--placeholder-bg) !important;
-  min-height: 36px !important;
+  min-height: 34px !important;
   height: auto;
   padding: 0 !important;
 }
@@ -198,7 +199,7 @@ ul.sortable-left > li.allowable-answer {
 }
 
 ul.sortable-left > li.allowable-answer-editable {
-  padding: 4px 8px;
+  padding: 6px 8px;
 }
 
 ul.sortable-left > li.allowable-answer-editable input {

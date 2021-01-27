@@ -18,7 +18,10 @@ $(function() {
     stop: function(event, ui){ 
       ui.item.removeClass("selected"); 
     },
-    update: function(e, ui) { }
+    update: function(e, ui) {
+
+      // updateDataDisplay(items);
+    }
   }).disableSelection();
 
   /********/
@@ -47,10 +50,9 @@ $(function() {
   }
 
   // Update data for one item
-  function updateItemData(id, text) {
+  function updateItemText(id, text) {
     var pos = items.findIndex(function(item) { return item.id == id; });
     items[pos].text = text;
-    updateDataDisplay(items);
   }
 
   // Remove data for one item
@@ -72,7 +74,7 @@ $(function() {
   // Create DOM item
   function createDomItem(id) {
     var itemData = getItemData(id);
-    return '<li id="' + id + '" class="ui-state-default allowable-answer-editable"><span><span class="draggable"></span></span><span class="text-content"><input type="text" value="' + itemData.text + '" class="allowable-answer-input" /></span><span class="remove">×</span></li>';
+    return '<li id="' + id + '" class="ui-state-default allowable-answer-editable"><span class="draggable"></span><span class="text-content"><input type="text" value="' + itemData.text + '" class="allowable-answer-input" /></span><span class="remove">×</span></li>';
   }
 
   // Append all DOM items
@@ -97,16 +99,18 @@ $(function() {
     updateDataDisplay(items);
     bindEventsDynamically();
     $(this).attr("disabled", "disabled");
-    // $(".btn.save").removeAttr("disabled");
   });
 
-  // Save a new item
+  // Save items
   $(".btn.save").unbind("click").click(function(e) {
-    var inputElement = $(":input[type=text]");
-    var listItemId = $(inputElement).parent().parent().attr('id');
-    var dataItem = getItemData(listItemId);
-    console.log(dataItem, inputElement.val());
-    updateItemData(listItemId, inputElement.val())
+    sortableList.find("li").each(function(index) {
+      var id = $(this).attr('id');
+      var text = $(this).find(":input[type=text]").val();
+      updateItemText(id, text);
+    });
+    var sortableArray = sortableList.sortable('toArray');
+    console.log({sortableArray});
+    updateDataDisplay(items);
     $(this).attr("disabled", "disabled");
     $(".btn.add").removeAttr("disabled");
   });
