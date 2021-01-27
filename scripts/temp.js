@@ -16,3 +16,11 @@
 //   console.log('removedBtn');
 // });
 // var removeBtn = $(newItem).find(".remove");
+
+
+  // function createDomItem(id) {
+  //   var itemData = getItemData(id);
+  //   var content = itemData.text.length ? itemData.text : '<input type="text" value="" class="allowable-answer-input" />';
+  //   var itemClass = itemData.text.length ? 'allowable-answer' : 'allowable-answer-editable'
+  //   return '<li id="' + id + '" class="ui-state-default ' + itemClass + '"><span><span class="draggable"></span></span><span class="text-content">' + content + '</span><span class="remove">×</span></li>';
+  // }

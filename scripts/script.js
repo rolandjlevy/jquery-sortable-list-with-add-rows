@@ -41,14 +41,28 @@ $(function() {
     }
   ];
 
-  // Get item data
+  // Get data for one item
   function getItemData(id) {
-    return items.find(function(item) { return item.id == id; })
+    return items.find(function(item) { return item.id == id; });
   }
 
-  // Remove item data
+  // Update data for one item
+  function updateItemData(id, text) {
+    var pos = items.findIndex(function(item) { return item.id == id; });
+    items[pos].text = text;
+    updateDataDisplay(items);
+  }
+
+  // Remove data for one item
   function removeItemData(id) {
     items = items.filter(function(item) { return item.id != id; });
+    updateDataDisplay(items);
+  }
+
+  // Update displayed data
+  function updateDataDisplay(obj) {
+    var data = JSON.stringify(obj, null, 2);
+    $('.data').text(data);
   }
 
   /********************/
@@ -58,9 +72,7 @@ $(function() {
   // Create DOM item
   function createDomItem(id) {
     var itemData = getItemData(id);
-    var content = itemData.text.length ? itemData.text : '<input type="text" value="" class="allowable-answer-input" />';
-    var itemClass = itemData.text.length ? 'allowable-answer' : 'allowable-answer-editable'
-    return '<li id="' + id + '" class="ui-state-default ' + itemClass + '"><span><span class="draggable"></span></span><span class="text-content">' + content + '</span><span class="remove">×</span></li>';
+    return '<li id="' + id + '" class="ui-state-default allowable-answer-editable"><span><span class="draggable"></span></span><span class="text-content"><input type="text" value="' + itemData.text + '" class="allowable-answer-input" /></span><span class="remove">×</span></li>';
   }
 
   // Append all DOM items
@@ -69,37 +81,50 @@ $(function() {
     sortableList.append(newItem);
   });
   
-  eventsForDynamicElements();
+  updateDataDisplay(items);
+  bindEventsDynamically();
 
   /**********/
   /* Events */
   /**********/
 
+  // Add an empty item
   $(".btn.add").unbind("click").click(function(e) {
     var id = items.length + 1; 
     items.push({ id: id, text: '' });
     var newItem = createDomItem(id);
     sortableList.append(newItem);
-    eventsForDynamicElements();
+    updateDataDisplay(items);
+    bindEventsDynamically();
     $(this).attr("disabled", "disabled");
+    // $(".btn.save").removeAttr("disabled");
   });
 
+  // Save a new item
   $(".btn.save").unbind("click").click(function(e) {
-    var unsavedInput = $(":input[type=text]");
-    var unsavedListItemId = $(unsavedInput).parent().parent().attr('id');
-    var dataItem = getItemData(unsavedListItemId);
-    console.log({dataItem, items});
+    var inputElement = $(":input[type=text]");
+    var listItemId = $(inputElement).parent().parent().attr('id');
+    var dataItem = getItemData(listItemId);
+    console.log(dataItem, inputElement.val());
+    updateItemData(listItemId, inputElement.val())
     $(this).attr("disabled", "disabled");
     $(".btn.add").removeAttr("disabled");
   });
 
-  function eventsForDynamicElements() {
-    $(document).on("click", "ul.sortable-left > li > .remove", function(e) {
+  function bindEventsDynamically() {
+    // Remove an item
+    $(document).unbind("click").on("click", "ul.sortable-left > li > .remove", function(e) {
       var listItemId = $(this).parent().attr('id');
       removeItemData(listItemId);
+      var inputElement = $(":input[type=text]");
       $(this).parent().remove();
+      if (inputElement.length) {
+        $(".btn.save").attr("disabled", "disabled");
+        $(".btn.add").removeAttr("disabled");
+      }
     });
-    $(document).on("keyup", "ul.sortable-left > li :input", function(e) {
+    // Validate item input
+    $(document).unbind("keyup").on("keyup", "ul.sortable-left > li :input", function(e) {
       if (e.target.value.length) {
         $(".btn.save").removeAttr("disabled");
       } else {
