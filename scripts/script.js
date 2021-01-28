@@ -19,7 +19,7 @@ $(function() {
       // ui.item.removeClass("selected"); 
       var tempItems = sortItemsData();
       items = tempItems.slice();
-      updateDataDisplay();
+      $(".btn.save").removeAttr("disabled");
     },
     update: function(e, ui) { }
   }).disableSelection();
@@ -171,7 +171,6 @@ $(function() {
         radio.attr("checked", false);
         var id = $(this).attr('id');
         resetDefaultItemData(id);
-        updateDataDisplay();
         $(".btn.save").removeAttr("disabled");
       }
     });
@@ -187,7 +186,6 @@ $(function() {
         var id = $(this).attr("id");
         $(this).remove();
         removeItemData(id);
-        updateDataDisplay();
         $(".btn.save").removeAttr("disabled");
       }
     });
