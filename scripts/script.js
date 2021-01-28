@@ -69,11 +69,11 @@ $(function() {
     items[pos] = { id:Number(id), key:key, name:name, def:def }
   }
 
-
-  // Clear default for one item
-  function clearDefaultItemData(id) {
+  // Reset default for one item
+  function resetDefaultItemData(id) {
     var pos = items.findIndex(function(item) { return item.id == id; });
     items[pos].def = false;
+    items[0].def = true;
   }
 
   // Remove data for one item
@@ -113,9 +113,10 @@ $(function() {
   /********************/
 
   // Create DOM item
-  function createDomItem(id) {
+  function createDomItem(id, index) {
+    var checked = index == 0 ? ' checked' : '';
     var itemData = getItemData(id);
-    return '<li id="' + id + '" class="ui-state-default allowable-answer-editable"><span class="draggable"></span><span class="text-content"><input type="text" class="key" value="' + itemData.key + '" placeholder="Enter a key…" /><input type="text" class="name m-l-5" value="' + itemData.name + '" placeholder="Enter a name…" /><input type="radio" name="def" class="def" value="' + itemData.key + '"></span><span class="remove">×</span></li>';
+    return '<li id="' + id + '" class="ui-state-default allowable-answer-editable"><span class="draggable"></span><span class="text-content"><input type="text" class="key" value="' + itemData.key + '" placeholder="Enter a key…" /><input type="text" class="name m-l-5" value="' + itemData.name + '" placeholder="Enter a name…" /><input type="radio" name="def" class="def" value="' + itemData.key + '"' + checked + '></span><span class="remove">×</span></li>';
   }
 
   function updateListItemsCount() {
@@ -123,14 +124,15 @@ $(function() {
   }
 
   // Append all DOM items
-  items.forEach(function(item) {
-    var newItem = createDomItem(item.id);
+
+  items[0].def = true;
+  items.forEach(function(item, index) {
+    var newItem = createDomItem(item.id, index);
     sortableList.append(newItem);
   });
-  
+
   updateDataDisplay();
   bindEventsDynamically();
-  var originalForm = '';
 
 
   /**********/
@@ -141,7 +143,7 @@ $(function() {
   $(".btn.add").unbind("click").click(function(e) {
     var id = counter++; 
     items.push({ id:id, key:'', name:'', def:false });
-    var newItem = createDomItem(id);
+    var newItem = createDomItem(id, items.length);
     sortableList.append(newItem);
     bindEventsDynamically();
     $("li#" + id + " .key:input[type=text]").focus();
@@ -161,18 +163,19 @@ $(function() {
     $(".btn.save").attr("disabled", true);
   });
 
-  // Clear default item
-  $(".btn.clear-default").unbind("click").click(function(e) {
+  // Reset default item
+  $(".btn.reset-default").unbind("click").click(function(e) {
     sortableList.find("li").each(function(index) {
       var radio = $(this).find(".def:input[type='radio']");
       if (radio.prop("checked")) {
         radio.attr("checked", false);
         var id = $(this).attr('id');
-        clearDefaultItemData(id);
+        resetDefaultItemData(id);
         updateDataDisplay();
         $(".btn.save").removeAttr("disabled");
       }
     });
+    sortableList.find("li:first-child .def:input[type='radio']").prop("checked", true);
   });
 
   function bindEventsDynamically() {
