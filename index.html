@@ -14,26 +14,30 @@
 
     <main class="wrapper">
 
-      <h2 class="m-t-0 m-b-10">Sortable list with editable rows</h2>
 
-      <section class="button-group">
-        <button class="btn add m-b-10">Add</button>
-        <button class="btn save m-b-10 m-l-5">Save</button>
-        <button class="btn clear-default m-b-10 m-l-5">Clear default</button>
-      </section>
+        <h2 class="m-t-0 m-b-20">Sortable list with editable rows</h2>
 
-      <section class="container">
+        <section class="button-group">
+          <button class="btn add m-b-10"><img src="images/add.png" class="icon add-icon" />Add</button>
+          <button class="btn clear-default m-b-10 m-l-5"><img src="images/cancel.png" class="icon clear-icon" />Clear default</button>
+          <button class="btn save m-b-10 m-l-5" disabled><img src="images/disk.png" class="icon save-icon" />Save</button>
+        </section>
 
+        <section class="container">
 
-        <ul class="sortable-left ui-sortable" style="">
-        </ul>
+          <!-- <form id="allowable-answers" action=""> -->
 
-        <div class="display">
-          <details open>
-            <summary>Data</summary>
-            <pre class="data">{}</pre>
-          </details>
-        </div>
+            <ul class="sortable-left ui-sortable" style=""></ul>
+
+          <!-- </form> -->
+
+          <div class="display">
+            <details open>
+              <summary>List items (<span class="list-items-count"></span>)</summary>
+              <pre class="data">{}</pre>
+            </details>
+          </div>
+
 
     </main>
     

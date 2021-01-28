@@ -19,7 +19,7 @@ $(function() {
       // ui.item.removeClass("selected"); 
       var tempItems = sortItemsData();
       items = tempItems.slice();
-      updateDataDisplay(items);
+      updateDataDisplay();
     },
     update: function(e, ui) { }
   }).disableSelection();
@@ -91,9 +91,21 @@ $(function() {
   }
 
   // Update displayed data
-  function updateDataDisplay(obj) {
-    var data = JSON.stringify(obj, null, 2);
+  function updateDataDisplay() {
+    var data = JSON.stringify(items, null, 2);
     $('.data').text(data);
+    updateListItemsCount();
+  }
+
+  function customSerialize() {
+    var formData = [];
+    sortableList.find("li").each(function(index) {
+      var id = Number($(this).attr('id'));
+      var key = $(this).find(".key:input[type='text']").val().trim();
+      var name = $(this).find(".name:input[type='text']").val().trim();
+      var def = $(this).find(".def:input[type='radio']").prop("checked");
+      formData.push({id:id, key:key, name:name, def:def});
+    });
   }
 
   /********************/
@@ -103,7 +115,11 @@ $(function() {
   // Create DOM item
   function createDomItem(id) {
     var itemData = getItemData(id);
-    return '<li id="' + id + '" class="ui-state-default allowable-answer-editable"><span class="draggable"></span><span class="text-content"><input type="text" class="key" value="' + itemData.key + '" /><input type="text" class="name m-l-5" value="' + itemData.name + '" /><input type="radio" name="def" class="def" value="' + itemData.key + '"></span><span class="remove">×</span></li>';
+    return '<li id="' + id + '" class="ui-state-default allowable-answer-editable"><span class="draggable"></span><span class="text-content"><input type="text" class="key" value="' + itemData.key + '" placeholder="Enter a key…" /><input type="text" class="name m-l-5" value="' + itemData.name + '" placeholder="Enter a name…" /><input type="radio" name="def" class="def" value="' + itemData.key + '"></span><span class="remove">×</span></li>';
+  }
+
+  function updateListItemsCount() {
+    $('.list-items-count').text(items.length);
   }
 
   // Append all DOM items
@@ -112,8 +128,10 @@ $(function() {
     sortableList.append(newItem);
   });
   
-  updateDataDisplay(items);
+  updateDataDisplay();
   bindEventsDynamically();
+  var originalForm = '';
+
 
   /**********/
   /* Events */
@@ -126,10 +144,8 @@ $(function() {
     var newItem = createDomItem(id);
     sortableList.append(newItem);
     bindEventsDynamically();
-    updateDataDisplay(items);
     $("li#" + id + " .key:input[type=text]").focus();
-    // TODO: validation
-    // $(this).attr("disabled", "disabled");
+    $(".btn.save").removeAttr("disabled");
   });
 
   // Save items
@@ -141,13 +157,11 @@ $(function() {
       var def = $(this).find(".def:input[type='radio']").prop("checked");
       updateItemData(id, key, name, def);
     });
-    updateDataDisplay(items);
-    // TODO: validate Save buttons
-    // $(this).attr("disabled", "disabled");
-    // $(".btn.add").removeAttr("disabled");
+    updateDataDisplay();
+    $(".btn.save").attr("disabled", true);
   });
 
-  // Save items
+  // Clear default item
   $(".btn.clear-default").unbind("click").click(function(e) {
     sortableList.find("li").each(function(index) {
       var radio = $(this).find(".def:input[type='radio']");
@@ -155,34 +169,29 @@ $(function() {
         radio.attr("checked", false);
         var id = $(this).attr('id');
         clearDefaultItemData(id);
-        updateDataDisplay(items);
+        updateDataDisplay();
+        $(".btn.save").removeAttr("disabled");
       }
     });
   });
 
   function bindEventsDynamically() {
-    // Remove an item
-    $(document).unbind("click").on("click", "ul.sortable-left > li > .remove", function(e) {
-      var listItemId = $(this).parent().attr('id');
-      removeItemData(listItemId);
-      $(this).parent().remove();
-      updateDataDisplay(items);
-      // TODO: validate Save and buttons
-      // var inputElement = $("li#" + listItemId + " :input[type=text]");
-      // if (inputElement.length) {
-      //   $(".btn.save").attr("disabled", "disabled");
-      //   $(".btn.add").removeAttr("disabled");
-      // }
+    // Remove an item and enable Save button
+    $(document).unbind("click").on("click", "ul.sortable-left > li", function(e) {
+      if (e.target.className === 'def') {
+        $(".btn.save").removeAttr("disabled");
+      } else if (e.target.className === 'remove') {
+        var id = $(this).attr("id");
+        $(this).remove();
+        removeItemData(id);
+        updateDataDisplay();
+        $(".btn.save").removeAttr("disabled");
+      }
     });
     // Validate item input
-    // TODO: validate Save button
-    // $(document).unbind("keyup").on("keyup", "ul.sortable-left > li :input", function(e) {
-      // if (e.target.value.length) {
-      //   $(".btn.save").removeAttr("disabled");
-      // } else {
-      //   $(".btn.save").attr("disabled", "disabled");
-      // }
-    // });
+    $(document).unbind("keyup").on("keyup", "ul.sortable-left > li :input", function(e) {
+      $(".btn.save").removeAttr("disabled");
+    });
   }
 
 });
