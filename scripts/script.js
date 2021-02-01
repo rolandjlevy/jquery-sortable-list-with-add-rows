@@ -209,8 +209,9 @@ $(function() {
     });
 
     // Validate item input
+    var empty;
     $(document).unbind("keyup").on("keyup", "ul.sortable-left > li input.name", function(e) {
-      var empty = 0;
+      empty = 0;
       $("ul.sortable-left > li input.name").each(function() {
         if (!$(this).val().length) {
           empty++;
