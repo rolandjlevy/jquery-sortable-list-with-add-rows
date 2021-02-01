@@ -4,7 +4,6 @@ $(function() {
   /* Answer Types */
   /*****************/
 
-
 	$("#answer-types").chosen({ width:'200px' });
 
   $("#answer-types").unbind('change').change(function(e){
@@ -166,6 +165,7 @@ $(function() {
     bindEventsDynamically();
     $("li#" + id + " .key:input[type=text]").focus();
     $(".btn.save").removeAttr("disabled");
+    $(".btn.add").attr("disabled", true);
   });
 
   // Save items
@@ -207,9 +207,25 @@ $(function() {
         $(".btn.save").removeAttr("disabled");
       }
     });
+
     // Validate item input
-    $(document).unbind("keyup").on("keyup", "ul.sortable-left > li :input", function(e) {
-      $(".btn.save").removeAttr("disabled");
+    $(document).unbind("keyup").on("keyup", "ul.sortable-left > li input.name", function(e) {
+      var empty = 0;
+      $("ul.sortable-left > li input.name").each(function() {
+        if (!$(this).val().length) {
+          empty++;
+          $(this).addClass('error');
+        } else {
+          $(this).removeClass('error');
+        }
+      });
+      if (empty > 0) {
+        $(".btn.save").attr("disabled", true);
+        $(".btn.add").attr("disabled", true);
+      } else {
+        $(".btn.save").removeAttr("disabled");
+        $(".btn.add").removeAttr("disabled");
+      }
     });
   }
 

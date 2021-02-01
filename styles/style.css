@@ -210,10 +210,13 @@ ul.sortable-left > li.allowable-answer-editable {
   padding: 6px 8px;
 }
 
-ul.sortable-left > li.allowable-answer-editable input[type=text],
-#image-section input[type=text] {
+ul.sortable-left > li.allowable-answer-editable input[type=text] {
   padding: 4px;
   border: 1px solid #ccc;
+}
+
+ul.sortable-left > li.allowable-answer-editable input[type=text].error {
+  border: 1px solid red;
 }
 
 ul.sortable-left > li.allowable-answer-editable input[type=radio] {
