@@ -47,6 +47,10 @@ body {
   margin-top: 0;
 }
 
+.m-b-0 {
+  margin-bottom: 0;
+}
+
 .m-t-20 {
   margin-top: 20px;
 }
@@ -64,9 +68,9 @@ body {
   margin: 0;
   padding: 5px 0 0 0;
   float: left;
-  overflow-y: hidden;
   display: flex;
   flex-direction: column;
+  /* overflow-y: hidden; */
 }
 
 /*********/
@@ -206,7 +210,8 @@ ul.sortable-left > li.allowable-answer-editable {
   padding: 6px 8px;
 }
 
-ul.sortable-left > li.allowable-answer-editable input[type=text] {
+ul.sortable-left > li.allowable-answer-editable input[type=text],
+#image-section input[type=text] {
   padding: 4px;
   border: 1px solid #ccc;
 }
@@ -231,3 +236,27 @@ ul.sortable-left > li.allowable-answer-editable input[type=radio] {
 .icon {
   margin: 2px 5px -2px 0;
 }
+
+.hidden {
+  display: none;
+}
+
+label, input[type=checkbox] {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.fade-in {
+  animation: fadeInAnimation ease-in 0.25s;
+  animation-iteration-count: 1; 
+  animation-fill-mode: forwards; 
+}
+
+@keyframes fadeInAnimation { 
+  0% { 
+    opacity: 0;
+  } 
+  100% { 
+    opacity: 1; 
+  } 
+} 

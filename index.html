@@ -6,38 +6,70 @@
   <title>Sortable list with editable rows</title>
   <link rel="stylesheet" href="styles/style.css">
   <link rel="stylesheet" href="styles/view-data.css">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-</head>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
+  </head>
   <body>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://harvesthq.github.io/chosen/chosen.jquery.js"></script>
 
     <main class="wrapper">
 
+        <h2 class="m-t-0 m-b-20">Edit questionnaire item</h2>
 
-        <h2 class="m-t-0 m-b-20">Sortable list with editable rows</h2>
+        <h4 class="m-t-20 m-b-0">Question: <span style="font-weight:normal;">Does team have sufficient marker paint</span></h4>
 
-        <section class="button-group">
-          <button class="btn add m-b-10"><img src="images/add.png" class="icon add-icon" />Add</button>
-          <button class="btn reset-default m-b-10 m-l-5"><img src="images/cancel.png" class="icon reset-icon" />Reset default</button>
-          <button class="btn save m-b-10 m-l-5" disabled><img src="images/disk.png" class="icon save-icon" />Save</button>
+        <section class="m-b-0">
+          <label for="answer-types"><h4 class="m-b-10">Answer Types (required)</h4></label>
+          <select id="answer-types" name="answer-types">
+            <option value="">Please select...</option>
+            <option value="dropdown">Allowable Answers Dropdown</option>
+            <option value="image">Single image selector</option>
+            <option value="placeholder">Placeholder Text</option>
+          </select>
         </section>
 
-        <section class="container">
+        <div id="image" class="section hidden">
+          <h4 class="m-t-20 m-b-0">Single Image Selector <input type="text" value="" placeholder="Enter a tag name..."></h4>
+        </div>
 
-          <!-- <form id="allowable-answers" action=""> -->
+        <div id="placeholder" class="section hidden">
+          <h4 class="m-t-20 m-b-0">Placeholder Text <input type="text" value="" placeholder="Enter a placeholder..."></h4>
+        </div>
+
+        <div id="dropdown" class="section hidden">
+
+          <h4 class="m-t-20 m-b-10">Allowable Answers Dropdown</h4>
+
+          <section class="button-group">
+            <button class="btn add m-b-10"><img src="images/add.png" class="icon add-icon" />Add item</button>
+            <button class="btn reset-default m-b-10 m-l-5"><img src="images/cancel.png" class="icon reset-icon" />Reset default</button>
+            <button class="btn save m-b-10 m-l-5" disabled><img src="images/disk.png" class="icon save-icon" />Save items</button>
+          </section>
+
+          <section class="container">
 
             <ul class="sortable-left ui-sortable" style=""></ul>
 
-          <!-- </form> -->
+            <div class="display">
+              <details>
+                <summary>List items (<span class="list-items-count"></span>)</summary>
+                <pre class="data">{}</pre>
+              </details>
+            </div>
 
-          <div class="display">
-            <details open>
-              <summary>List items (<span class="list-items-count"></span>)</summary>
-              <pre class="data">{}</pre>
-            </details>
-          </div>
+          </section>
 
+        </div>
+
+        <section>
+          <h4><label for="mq">Mandatory Question</label> <input id="mq" type="checkbox" /></h4>
+          <h4><label for="cr">Comparison Required</label> <input id="cr" type="checkbox" /></h4>
+          <h4><label for="sio">Show In Ontrack</label> <input id="sio" type="checkbox" /></h4>
+          <button class="btn save-changes"><img src="images/disk.png" class="icon save-icon" />Save changes</button>
+        </section>
 
     </main>
     

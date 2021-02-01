@@ -1,6 +1,36 @@
 $(function() {
 
   /*****************/
+  /* Answer Types */
+  /*****************/
+
+
+	$("#answer-types").chosen({ width:'200px' });
+
+  $("#answer-types").unbind('change').change(function(e){
+		if (e.target.value === 'dropdown') {
+      $("#dropdown.section").removeClass('hidden');
+      $("#dropdown.section").addClass('fade-in');
+      $("#placeholder.section").addClass('hidden');
+      $("#image.section").addClass('hidden');
+    }
+		if (e.target.value === 'image') {
+      $("#dropdown.section").addClass('hidden');
+      $("#placeholder.section").addClass('hidden');
+      $("#image.section").removeClass('hidden');
+      $("#image.section").addClass('fade-in');
+      $("#image.section > input").focus();
+    }
+		if (e.target.value === 'placeholder') {
+      $("#dropdown.section").addClass('hidden');
+      $("#placeholder.section").removeClass('hidden');
+      $("#placeholder.section > input").focus();
+      $("#placeholder.section").addClass('fade-in');
+      $("#image.section").addClass('hidden');
+    }
+	});
+
+  /*****************/
   /* Sortable List */
   /*****************/
 

@@ -25,6 +25,8 @@ details > summary {
   margin: 15px 0 10px 0;
   padding: 10px;
   font-size: 1.125rem;
+  overflow-y: auto;
+  max-height: 150px;
 }
 
 @media only screen and (max-width: 640px) {
