@@ -111,7 +111,7 @@ $(function() {
   function updateDataDisplay() {
     var data = JSON.stringify(items, null, 2);
     $('.data').text(data);
-    updateListItemsCount();
+    $('.list-items-count').text(items.length);
   }
 
   function customSerialize() {
@@ -133,16 +133,34 @@ $(function() {
   function createDomItem(id, index) {
     var checked = index == 0 ? ' checked' : '';
     var itemData = getItemData(id);
-    return '<li id="' + id + '" class="ui-state-default allowable-answer-editable"><span class="draggable"></span><span class="text-content"><input type="text" class="key" value="' + itemData.key + '" placeholder="Enter a key…" /><input type="text" class="name m-l-5" value="' + itemData.name + '" placeholder="Enter a name…" /><input type="radio" name="def" class="def" value="' + itemData.key + '"' + checked + '></span><span class="remove">×</span></li>';
+    return '<li id="' + id + '" class="ui-state-default allowable-answer-editable"><span class="draggable"></span><span class="text-content"><input type="text" class="key" value="' + itemData.key + '" placeholder="Enter a key..." maxlength="50" /><input type="text" class="name m-l-5" value="' + itemData.name + '" placeholder="Enter a name..."  maxlength="50" /><input type="radio" name="def" class="def" value="' + itemData.key + '"' + checked + '></span><span class="remove">×</span></li>';
   }
 
-  function updateListItemsCount() {
-    $('.list-items-count').text(items.length);
+  var empty;
+
+  function validateNameInput() {
+    empty = 0;
+    $("ul.sortable-left > li input.name").each(function() {
+      if (!$(this).val().length) {
+        empty++;
+        $(this).addClass('error');
+      } else {
+        $(this).removeClass('error');
+      }
+    });
+    if (empty > 0) {
+      $(".btn.save").attr("disabled", true);
+      $(".btn.add").attr("disabled", true);
+    } else {
+      $(".btn.save").removeAttr("disabled");
+      $(".btn.add").removeAttr("disabled");
+    }
   }
 
   // Append all DOM items
 
   items[0].def = true;
+
   items.forEach(function(item, index) {
     var newItem = createDomItem(item.id, index);
     sortableList.append(newItem);
@@ -150,7 +168,6 @@ $(function() {
 
   updateDataDisplay();
   bindEventsDynamically();
-
 
   /**********/
   /* Events */
@@ -164,7 +181,7 @@ $(function() {
     sortableList.append(newItem);
     bindEventsDynamically();
     $("li#" + id + " .key:input[type=text]").focus();
-    $(".btn.save").removeAttr("disabled");
+    $("li#" + id + " .name:input[type=text]").addClass('error');
     $(".btn.add").attr("disabled", true);
   });
 
@@ -196,7 +213,7 @@ $(function() {
   });
 
   function bindEventsDynamically() {
-    // Remove an item and enable Save button
+    // Remove or set default then toggle Save button
     $(document).unbind("click").on("click", "ul.sortable-left > li", function(e) {
       if (e.target.className === 'def') {
         $(".btn.save").removeAttr("disabled");
@@ -205,28 +222,13 @@ $(function() {
         $(this).remove();
         removeItemData(id);
         $(".btn.save").removeAttr("disabled");
+        validateNameInput();
       }
     });
 
-    // Validate item input
-    var empty;
+    // Validate name input on keyup
     $(document).unbind("keyup").on("keyup", "ul.sortable-left > li input.name", function(e) {
-      empty = 0;
-      $("ul.sortable-left > li input.name").each(function() {
-        if (!$(this).val().length) {
-          empty++;
-          $(this).addClass('error');
-        } else {
-          $(this).removeClass('error');
-        }
-      });
-      if (empty > 0) {
-        $(".btn.save").attr("disabled", true);
-        $(".btn.add").attr("disabled", true);
-      } else {
-        $(".btn.save").removeAttr("disabled");
-        $(".btn.add").removeAttr("disabled");
-      }
+      validateNameInput();
     });
   }
 
