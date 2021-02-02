@@ -215,14 +215,18 @@ $(function() {
   function bindEventsDynamically() {
     // Remove or set default then toggle Save button
     $(document).unbind("click").on("click", "ul.sortable-left > li", function(e) {
+      validateNameInput();
       if (e.target.className === 'def') {
-        $(".btn.save").removeAttr("disabled");
+        if (empty == 0) {
+          $(".btn.save").removeAttr("disabled");
+        }
       } else if (e.target.className === 'remove') {
         var id = $(this).attr("id");
         $(this).remove();
         removeItemData(id);
-        $(".btn.save").removeAttr("disabled");
-        validateNameInput();
+        if (empty == 0) {
+          $(".btn.save").removeAttr("disabled");
+        }
       }
     });
 
